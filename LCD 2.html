@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Precios Dinámica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            font-size: 1.1em;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0;
+        }
+        input[type="number"]:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 204, 0, 0.3);
+        }
+        .totales {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .resumen-total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+        .tipo-precio {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        .precio-aplicado {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff6347;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .botones {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .linea-precio {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+        .detalle-descuento {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tabla de Precios Dinámica</h1>
+    <table id="tabla-precios">
+        <thead>
+            <tr>
+                <th>MODELO</th>
+                <th>PRECIO DE VENTA POR UNIDAD</th>
+                <th>CANTIDAD SOLICITADA</th>
+                <th>PRECIO REGULAR</th>
+                <th>SUBTOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-precios='{"Unidad": 369}'>
+                <td>ACER UM.QS1AA.002 SA241Y LCD FULL HD 23,8"</td>
+                <td>Q369.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q369.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 369}'>
+                <td>ONN 24" PULGADAS 1080P VGA HDMI 60HZ 1080p</td>
+                <td>Q369.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q369.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 619}'>
+                <td>LG 27GQ40W-B ULTRAGEAR 1080p 27" PULGADAS, 1 MS, 165 HZ AMD FREESYNC PREMIUM</td>
+                <td>Q619.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q619.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 481}'>
+                <td>LG 27MP40W-B SIN BORDES3 1080p IPS 27" PULGADAS AMD FREESYNC</td>
+                <td>Q481.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q481.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 742}'>
+                <td>MSI G32C4X GAMING 32" PULGADAS CURVO 1080p, 1 MS, 250HZ, FREESYNC, 1500R, HDMI, DP</td>
+                <td>Q742.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q742.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 313}'>
+                <td>ONN 100002480 LCD HD 22" PULGADAS, 1920 X 1080, HDMI, VGA, 60 HZ, 6,5 MS</td>
+                <td>Q313.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q313.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 481}'>
+                <td>ONN 100027813 FREESYNC 1080p 1080P 165 HZ 24 PULGADAS</td>
+                <td>Q481.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q481.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 593}'>
+                <td>SAMSUNG LC27F396FHNXZA SERIE CF396 CURVO 1080p 27" PULGADAS</td>
+                <td>Q593.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q593.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 704}'>
+                <td>SAMSUNG LC32R500FHNXZA CURVO 32" PULGADAS 1080p</td>
+                <td>Q704.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q704.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 522}'>
+                <td>SAMSUNG LF27T350FHNXZA LED 1080p 27" PULGADAS DISEÑO SIN BORDES</td>
+                <td>Q522.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q522.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 1039}'>
+                <td>SAMSUNG LS27AG552ENXZA 27" PULGADAS CLASS CURVED ODYSSEY G55A WQHD 165HZ 1MS AMD FREESYNC PREMIUM PARA JUEGOS</td>
+                <td>Q1,039.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q1,039.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            <tr data-precios='{"Unidad": 593}'>
+                <td>LG 24GQ40W-B ULTRAGEAR FHD DE 24" 1 MS 165 HZ CON AMD FREESYNC PREMIUM</td>
+                <td>Q593.00</td>
+                <td><input type="number" class="Cantidad-Solicitada" value="0" min="0" onchange="calcularTotales()"></td>
+                <td class="precio-unitario">Q593.00</td>
+                <td class="subtotal">Q0.00</td>
+            </tr>
+            
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="totales">
+        <p class="resumen-total">Total a pagar: Q0.00</p>
+        <p class="tipo-precio">Aplicado: <span id="tipo-precio"></span></p>
+        <div class="botones">
+            <button onclick="calcularTotales()">Calcular Totales</button>
+            <button onclick="restablecerTotales()">Restablecer</button>
+        </div>
+    </div>
+
+    <div class="detalle-descuento">
+        <h2>Detalle de Descuento</h2>
+        <table id="tabla-detalle-descuento">
+            <thead>
+                <tr>
+                    <th>MODELO</th>
+                    <th>CANTIDAD</th>
+                    <th>PRECIO REGULAR</th>
+                    <th>PRECIO CON DESCUENTO</th>
+                    <th>SUBTOTAL</th>
+                </tr>
+            </thead>
+            <tbody id="detalle-lineas"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function calcularTotales() {
+            let totalGeneral = 0;
+            let totalCantidad = 0;
+            let detalleDescuento = "";
+            let tipoPrecio = "Regular";
+            let descuentoAplicado = 0;
+
+            // Obtener todas las filas de la tabla
+            let filas = document.querySelectorAll("#tabla-precios tbody tr");
+
+            // Calcular la cantidad total
+            filas.forEach(fila => {
+                let cantidadSolicitada = parseInt(fila.querySelector(".Cantidad-Solicitada").value) || 0;
+                totalCantidad += cantidadSolicitada;
+            });
+
+            // Verificar el tipo de descuento a aplicar
+            if (totalCantidad >= 6 && totalCantidad < 20) {
+                descuentoAplicado = 0.05; // 5% de descuento
+                tipoPrecio = "Mayorista";
+            } else if (totalCantidad >= 20) {
+                descuentoAplicado = 0.15; // 10% de descuento
+                tipoPrecio = "Distribuidor";
+            }
+
+            // Mostrar el tipo de precio
+            document.getElementById("tipo-precio").innerText = tipoPrecio;
+
+            // Limpiar la tabla de detalle
+            document.getElementById("detalle-lineas").innerHTML = "";
+
+            filas.forEach(fila => {
+                // Obtener los datos de cada fila
+                let precioUnidad = parseFloat(fila.querySelector(".precio-unitario").innerText.replace("Q", ""));
+                let cantidadSolicitada = parseInt(fila.querySelector(".Cantidad-Solicitada").value) || 0;
+                
+                if (cantidadSolicitada > 0) {
+                    let precioConDescuento = precioUnidad * (1 - descuentoAplicado);
+                    let subtotal = precioConDescuento * cantidadSolicitada;
+
+                    // Actualizar la fila con los nuevos cálculos
+                    fila.querySelector(".subtotal").innerText = `Q${subtotal.toFixed(2)}`;
+
+                    // Sumar al total general
+                    totalGeneral += subtotal;
+
+                    // Detalle de descuento por línea
+                    let detalleFila = `
+                        <tr>
+                            <td>${fila.cells[0].innerText}</td>
+                            <td>${cantidadSolicitada}</td>
+                            <td>Q${precioUnidad.toFixed(2)}</td>
+                            <td>Q${precioConDescuento.toFixed(2)}</td>
+                            <td>Q${subtotal.toFixed(2)}</td>
+                        </tr>
+                    `;
+                    detalleDescuento += detalleFila;
+                }
+            });
+
+            // Actualizar el resumen total
+            document.querySelector(".resumen-total").innerText = `Total a pagar: Q${totalGeneral.toFixed(2)}`;
+            document.querySelector("#detalle-lineas").innerHTML = detalleDescuento;
+        }
+
+        function restablecerTotales() {
+            // Restablecer los valores de cantidad y el resultado
+            let filas = document.querySelectorAll("#tabla-precios tbody tr");
+            filas.forEach(fila => {
+                fila.querySelector(".Cantidad-Solicitada").value = 0;
+                fila.querySelector(".subtotal").innerText = "Q0.00";
+            });
+
+            document.querySelector(".resumen-total").innerText = "Total a pagar: Q0.00";
+            document.querySelector("#tipo-precio").innerText = "";
+            document.getElementById("detalle-lineas").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
